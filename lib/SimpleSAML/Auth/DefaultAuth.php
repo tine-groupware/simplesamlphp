@@ -83,7 +83,7 @@ class DefaultAuth
         $session->doLogout($authority);
 
         $state['\SimpleSAML\Auth\DefaultAuth.ReturnURL'] = $returnURL;
-        $state['LogoutCompletedHandler'] = [get_class(), 'logoutCompleted'];
+        $state['LogoutCompletedHandler'] = [self::class, 'logoutCompleted'];
 
         $as = Source::getById($authority);
         if ($as === null) {

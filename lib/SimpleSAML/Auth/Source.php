@@ -189,8 +189,8 @@ abstract class Source
             '\SimpleSAML\Auth\Source.Return' => $return,
             '\SimpleSAML\Auth\DefaultAuth.ErrorURL' => $errorURL, // TODO: remove in 2.0
             '\SimpleSAML\Auth\Source.ErrorURL' => $errorURL,
-            'LoginCompletedHandler' => [get_class(), 'loginCompleted'],
-            'LogoutCallback' => [get_class(), 'logoutCallback'],
+            'LoginCompletedHandler' => [self::class, 'loginCompleted'],
+            'LogoutCallback' => [self::class, 'logoutCallback'],
             'LogoutCallbackState' => [
                 '\SimpleSAML\Auth\DefaultAuth.logoutSource' => $this->authId, // TODO: remove in 2.0
                 '\SimpleSAML\Auth\Source.logoutSource' => $this->authId,

@@ -19,8 +19,7 @@ class MethodNotAllowed extends Error
      * @param \Exception $cause The exception caught by the ExceptionHandler.
      */
     public function __construct(Exception $cause)
-    {
-        $this->includeTemplate = 'core:method_not_allowed.twig';
+    {;
         parent::__construct(
             [
                 ErrorCodes::METHODNOTALLOWED,

@@ -475,9 +475,6 @@ class IdP
             case 'traditional':
                 $handler = TraditionalLogoutHandler::class;
                 break;
-            case 'iframe':
-                $handler = IFrameLogoutHandler::class;
-                break;
             default:
                 throw new Error\Exception('Unknown logout handler: ' . var_export($logouttype, true));
         }

@@ -168,18 +168,6 @@ class Simple
         }
 
         $as = $this->getAuthSource();
-        if (
-            $as instanceof Module\saml\Auth\Source\SP
-            && !isset($params[State::RESTART])
-            && is_string($returnTo)
-        ) {
-            /*
-             * A URL to restart the authentication, in case the user bookmarks
-             * something, e.g. the discovery service page.
-             */
-            $restartURL = $this->getLoginURL($returnTo);
-            $params[State::RESTART] = $restartURL;
-        }
 
         $as = $this->getAuthSource();
         return $as->initLogin($returnTo, $errorURL, $params);

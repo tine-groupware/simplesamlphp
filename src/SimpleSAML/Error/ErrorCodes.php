@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace SimpleSAML\Error;
 
-use SimpleSAML\Locale\Translate;
-use SimpleSAML\Module\core\Controller\Login;
-
 use function array_merge;
 use function strval;
 
@@ -98,9 +95,6 @@ class ErrorCodes
      */
     public function __construct()
     {
-        // Automatically register instances of subclasses with Login to allow
-        // custom ErrorCodes to work in a redirect environment
-        Login::registerErrorCodeClass($this);
     }
 
 
@@ -112,42 +106,42 @@ class ErrorCodes
     final public function getDefaultTitles(): array
     {
         return [
-            self::ACSPARAMS => Translate::noop('No SAML response provided'),
-            self::ADMINNOTHASHED => Translate::noop('Admin password not set to a hashed value'),
-            self::ARSPARAMS => Translate::noop('No SAML message provided'),
-            self::AUTHSOURCEERROR => Translate::noop('Authentication source error'),
-            self::BADREQUEST => Translate::noop('Bad request received'),
-            self::CASERROR => Translate::noop('CAS Error'),
-            self::CONFIG => Translate::noop('Configuration error'),
-            self::CREATEREQUEST => Translate::noop('Error creating request'),
-            self::DISCOPARAMS => Translate::noop('Bad request to discovery service'),
-            self::GENERATEAUTHNRESPONSE => Translate::noop('Could not create authentication response'),
-            self::INVALIDCERT => Translate::noop('Invalid certificate'),
-            self::LDAPERROR => Translate::noop('LDAP Error'),
-            self::LOGOUTINFOLOST => Translate::noop('Logout information lost'),
-            self::LOGOUTREQUEST => Translate::noop('Error processing the Logout Request'),
-            self::MEMCACHEDOWN => Translate::noop('Cannot retrieve session data'),
-            self::METADATA => Translate::noop('Error loading metadata'),
-            self::METADATANOTFOUND => Translate::noop('Metadata not found'),
-            self::METHODNOTALLOWED => Translate::noop('Method not allowed'),
-            self::NOACCESS => Translate::noop('No access'),
-            self::NOCERT => Translate::noop('No certificate'),
-            self::NORELAYSTATE => Translate::noop('No RelayState'),
-            self::NOSTATE => Translate::noop('State information lost'),
-            self::NOTFOUND => Translate::noop('Page not found'),
-            self::NOTFOUNDREASON => Translate::noop('Page not found'),
-            self::NOTSET => Translate::noop('Password not set'),
-            self::NOTVALIDCERT => Translate::noop('Invalid certificate'),
-            self::NOTVALIDCERTSIGNATURE => Translate::noop('Invalid certificate signature'),
-            self::PROCESSASSERTION => Translate::noop('Error processing response from Identity Provider'),
-            self::PROCESSAUTHNREQUEST => Translate::noop('Error processing request from Service Provider'),
-            self::RESPONSESTATUSNOSUCCESS => Translate::noop('Error received from Identity Provider'),
-            self::SLOSERVICEPARAMS => Translate::noop('No SAML message provided'),
-            self::SSOPARAMS => Translate::noop('No SAML request provided'),
-            self::UNHANDLEDEXCEPTION => Translate::noop('Unhandled exception'),
-            self::UNKNOWNCERT => Translate::noop('Unknown certificate'),
-            self::USERABORTED => Translate::noop('Authentication aborted'),
-            self::WRONGUSERPASS => Translate::noop('Incorrect username or password'),
+            self::ACSPARAMS => 'No SAML response provided',
+            self::ADMINNOTHASHED => 'Admin password not set to a hashed value',
+            self::ARSPARAMS => 'No SAML message provided',
+            self::AUTHSOURCEERROR => 'Authentication source error',
+            self::BADREQUEST => 'Bad request received',
+            self::CASERROR => 'CAS Error',
+            self::CONFIG => 'Configuration error',
+            self::CREATEREQUEST => 'Error creating request',
+            self::DISCOPARAMS => 'Bad request to discovery service',
+            self::GENERATEAUTHNRESPONSE => 'Could not create authentication response',
+            self::INVALIDCERT => 'Invalid certificate',
+            self::LDAPERROR => 'LDAP Error',
+            self::LOGOUTINFOLOST => 'Logout information lost',
+            self::LOGOUTREQUEST => 'Error processing the Logout Request',
+            self::MEMCACHEDOWN => 'Cannot retrieve session data',
+            self::METADATA => 'Error loading metadata',
+            self::METADATANOTFOUND => 'Metadata not found',
+            self::METHODNOTALLOWED => 'Method not allowed',
+            self::NOACCESS => 'No access',
+            self::NOCERT => 'No certificate',
+            self::NORELAYSTATE => 'No RelayState',
+            self::NOSTATE => 'State information lost',
+            self::NOTFOUND => 'Page not found',
+            self::NOTFOUNDREASON => 'Page not found',
+            self::NOTSET => 'Password not set',
+            self::NOTVALIDCERT => 'Invalid certificate',
+            self::NOTVALIDCERTSIGNATURE => 'Invalid certificate signature',
+            self::PROCESSASSERTION => 'Error processing response from Identity Provider',
+            self::PROCESSAUTHNREQUEST => 'Error processing request from Service Provider',
+            self::RESPONSESTATUSNOSUCCESS => 'Error received from Identity Provider',
+            self::SLOSERVICEPARAMS => 'No SAML message provided',
+            self::SSOPARAMS => 'No SAML request provided',
+            self::UNHANDLEDEXCEPTION => 'Unhandled exception',
+            self::UNKNOWNCERT => 'Unknown certificate',
+            self::USERABORTED => 'Authentication aborted',
+            self::WRONGUSERPASS => 'Incorrect username or password',
         ];
     }
 
@@ -184,34 +178,34 @@ class ErrorCodes
     final public function getDefaultDescriptions(): array
     {
         return [
-            self::ACSPARAMS => Translate::noop("" .
+            self::ACSPARAMS => "" .
                 "You accessed the Assertion Consumer Service interface, but did not " .
                 "provide a SAML Authentication Response. Please note that this endpoint is" .
-                " not intended to be accessed directly."),
-            self::ARSPARAMS => Translate::noop("" .
+                " not intended to be accessed directly.",
+            self::ARSPARAMS => "" .
                 "You accessed the Artifact Resolution Service interface, but did not " .
                 "provide a SAML ArtifactResolve message. Please note that this endpoint is" .
-                " not intended to be accessed directly."),
-            self::AUTHSOURCEERROR => Translate::noop("" .
-                'Authentication error in source %AUTHSOURCE%. The reason was: %REASON%'),
+                " not intended to be accessed directly.",
+            self::AUTHSOURCEERROR => "" .
+                'Authentication error in source %AUTHSOURCE%. The reason was: %REASON%',
             self::BADREQUEST =>
-                Translate::noop('There is an error in the request to this page. The reason was: %REASON%'),
-            self::CASERROR => Translate::noop('Error when communicating with the CAS server.'),
-            self::CONFIG => Translate::noop('SimpleSAMLphp appears to be misconfigured.'),
-            self::CREATEREQUEST => Translate::noop("An error occurred when trying to create the SAML request."),
-            self::DISCOPARAMS => Translate::noop("" .
+                'There is an error in the request to this page. The reason was: %REASON%',
+            self::CASERROR => 'Error when communicating with the CAS server.',
+            self::CONFIG => 'SimpleSAMLphp appears to be misconfigured.',
+            self::CREATEREQUEST => "An error occurred when trying to create the SAML request.",
+            self::DISCOPARAMS => "" .
                 "The parameters sent to the discovery service were not according to " .
-                "specifications."),
-            self::GENERATEAUTHNRESPONSE => Translate::noop("" .
+                "specifications.",
+            self::GENERATEAUTHNRESPONSE => "" .
                 "When this identity provider tried to create an authentication response, " .
-                "an error occurred."),
-            self::INVALIDCERT => Translate::noop("" .
+                "an error occurred.",
+            self::INVALIDCERT => "" .
                 "Authentication failed: the certificate your browser sent is invalid or " .
-                "cannot be read"),
-            self::LDAPERROR => Translate::noop("" .
+                "cannot be read",
+            self::LDAPERROR => "" .
                 "LDAP is the user database, and when you try to login, we need to contact " .
-                "an LDAP database. An error occurred when we tried it this time."),
-            self::LOGOUTINFOLOST => Translate::noop("" .
+                "an LDAP database. An error occurred when we tried it this time.",
+            self::LOGOUTINFOLOST => "" .
                 "The information about the current logout operation has been lost. You " .
                 "should return to the service you were trying to log out from and try to " .
                 "log out again. This error can be caused by the logout information " .
@@ -219,62 +213,62 @@ class ErrorCodes
                 "usually a number of hours. This is longer than any normal logout " .
                 "operation should take, so this error may indicate some other error with " .
                 "the configuration. If the problem persists, contact your service " .
-                "provider."),
-            self::LOGOUTREQUEST => Translate::noop('An error occurred when trying to process the Logout Request.'),
-            self::MEMCACHEDOWN => Translate::noop("" .
+                "provider.",
+            self::LOGOUTREQUEST => 'An error occurred when trying to process the Logout Request.',
+            self::MEMCACHEDOWN => "" .
                 "Your session data cannot be retrieved right now due to technical " .
-                "difficulties. Please try again in a few minutes."),
-            self::METADATA => Translate::noop("" .
+                "difficulties. Please try again in a few minutes.",
+            self::METADATA => "" .
                 "There is some misconfiguration of your SimpleSAMLphp installation. If you" .
                 " are the administrator of this service, you should make sure your " .
-                "metadata configuration is correctly setup."),
-            self::METADATANOTFOUND => Translate::noop('Unable to locate metadata for %ENTITYID%'),
-            self::METHODNOTALLOWED => Translate::noop('%MESSAGE%'),
-            self::NOACCESS => Translate::noop("" .
+                "metadata configuration is correctly setup.",
+            self::METADATANOTFOUND => 'Unable to locate metadata for %ENTITYID%',
+            self::METHODNOTALLOWED => '%MESSAGE%',
+            self::NOACCESS => "" .
                 "This endpoint is not enabled. Check the enable options in your " .
-                "configuration of SimpleSAMLphp."),
-            self::NOCERT => Translate::noop('Authentication failed: your browser did not send any certificate'),
-            self::NORELAYSTATE => Translate::noop("" .
+                "configuration of SimpleSAMLphp.",
+            self::NOCERT => 'Authentication failed: your browser did not send any certificate',
+            self::NORELAYSTATE => "" .
                 "The initiator of this request did not provide a RelayState parameter " .
-                "indicating where to go next."),
-            self::NOSTATE => Translate::noop('State information lost, and no way to restart the request'),
-            self::NOTFOUND => Translate::noop('The given page was not found. The URL was: %URL%'),
-            self::NOTFOUNDREASON => Translate::noop("" .
-                "The given page was not found. The reason was: %REASON%  The URL was: %URL%"),
-            self::NOTSET => Translate::noop("" .
-                "The password in the configuration (auth.adminpassword) is not changed " .
-                "from the default value. Please edit the configuration file."),
-            self::ADMINNOTHASHED => Translate::noop("" .
-                "The password in the configuration (auth.adminpassword) is not a hashed value. " .
+                "indicating where to go next.",
+            self::NOSTATE => 'State information lost, and no way to restart the request',
+            self::NOTFOUND => 'The given page was not found. The URL was: %URL%',
+            self::NOTFOUNDREASON => "" .
+                "The given page was not found. The reason was: %REASON%  The URL was: %URL%",
+            self::NOTSET => "" .
+                "The password in the configuration (auth.adminpassword is not changed " .
+                "from the default value. Please edit the configuration file.",
+            self::ADMINNOTHASHED => "" .
+                "The password in the configuration (auth.adminpassword is not a hashed value. " .
                 "Full details on how to fix this are supplied at " .
                 "https://github.com/simplesamlphp/simplesamlphp/wiki/" .
                 "Frequently-Asked-Questions-(FAQ)#failed-to-login-to-the-" .
                 "admin-page-with-and-error-message-admin-password-" .
-                "not-set-to-a-hashed-value"),
-            self::NOTVALIDCERT => Translate::noop('You did not present a valid certificate.'),
-            self::NOTVALIDCERTSIGNATURE => Translate::noop('Unable to validate certificate signature.'),
+                "not-set-to-a-hashed-value",
+            self::NOTVALIDCERT => 'You did not present a valid certificate.',
+            self::NOTVALIDCERTSIGNATURE => 'Unable to validate certificate signature.',
             self::PROCESSASSERTION =>
-                Translate::noop('We did not accept the response sent from the Identity Provider.'),
-            self::PROCESSAUTHNREQUEST => Translate::noop("" .
+                'We did not accept the response sent from the Identity Provider.',
+            self::PROCESSAUTHNREQUEST => "" .
                 "This Identity Provider received an Authentication Request from a Service " .
-                "Provider, but an error occurred when trying to process the request."),
-            self::RESPONSESTATUSNOSUCCESS => Translate::noop("" .
+                "Provider, but an error occurred when trying to process the request.",
+            self::RESPONSESTATUSNOSUCCESS => "" .
                 "The Identity Provider responded with an error. (The status code in the " .
-                "SAML Response was not success)"),
-            self::SLOSERVICEPARAMS => Translate::noop("" .
+                "SAML Response was not success",
+            self::SLOSERVICEPARAMS => "" .
                 "You accessed the SingleLogoutService interface, but did not provide a " .
                 "SAML LogoutRequest or LogoutResponse. Please note that this endpoint is " .
-                "not intended to be accessed directly."),
-            self::SSOPARAMS => Translate::noop("" .
+                "not intended to be accessed directly.",
+            self::SSOPARAMS => "" .
                 "You accessed the Single Sign On Service interface, but did not provide a " .
                 "SAML Authentication Request. Please note that this endpoint is not " .
-                "intended to be accessed directly."),
-            self::UNHANDLEDEXCEPTION => Translate::noop('An unhandled exception was thrown.'),
-            self::UNKNOWNCERT => Translate::noop('Authentication failed: the certificate your browser sent is unknown'),
-            self::USERABORTED => Translate::noop('The authentication was aborted by the user'),
-            self::WRONGUSERPASS => Translate::noop("" .
+                "intended to be accessed directly.",
+            self::UNHANDLEDEXCEPTION => 'An unhandled exception was thrown.',
+            self::UNKNOWNCERT => 'Authentication failed: the certificate your browser sent is unknown',
+            self::USERABORTED => 'The authentication was aborted by the user',
+            self::WRONGUSERPASS => "" .
                 "Either no user with the given username could be found, or the password " .
-                "you gave was wrong. Please check the username and try again."),
+                "you gave was wrong. Please check the username and try again.",
         ];
     }
 
@@ -326,7 +320,7 @@ class ErrorCodes
      */
     public function getTitle(string $errorCode): string
     {
-        return strval($this->getAllTitles()[$errorCode] ?? Translate::addTagPrefix($errorCode, 'title_'));
+        return strval($this->getAllTitles()[$errorCode]) ?? $errorCode;
     }
 
 
@@ -339,7 +333,7 @@ class ErrorCodes
      */
     public function getDescription(string $errorCode): string
     {
-        return strval($this->getAllDescriptions()[$errorCode] ?? Translate::addTagPrefix($errorCode, 'descr_'));
+        return strval($this->getAllDescriptions()[$errorCode]) ?? $errorCode;
     }
 
 

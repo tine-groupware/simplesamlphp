@@ -1237,7 +1237,7 @@ class HTTP
      * @throws \InvalidArgumentException If $destination is not a string or $data is not an array.
      * @throws \SimpleSAML\Error\Exception If $destination is not a valid HTTP URL.
      */
-    public function submitPOSTData(string $destination, array $data): RedirectResponse|Template
+    public function submitPOSTData(string $destination, array $data): RedirectResponse
     {
         if (!$this->isValidURL($destination)) {
             throw new Error\Exception('Invalid destination URL: ' . $destination);
@@ -1250,11 +1250,6 @@ class HTTP
             // we need to post the data to HTTP
             return $this->redirect($this->getSecurePOSTRedirectURL($destination, $data));
         }
-
-        $p = new Template($config, 'post.twig');
-        $p->data['destination'] = $destination;
-        $p->data['post'] = $data;
-
-        return $p;
+        throw new Error\Exception('Invalid destination URL: ' . $destination);
     }
 }

@@ -36,45 +36,9 @@ abstract class StoreFactory implements Utils\ClearableState
      * @throws \SimpleSAML\Error\CriticalConfigurationError
      * @throws \Exception
      */
-    public static function getInstance(string $storeType): StoreInterface|false
+    public static function getInstance(string $storeType): false
     {
-        if (self::$instance !== null) {
-            return self::$instance;
-        }
-
-        switch ($storeType) {
-            case 'phpsession':
-                // we cannot support advanced features with the PHP session store
-                self::$instance = false;
-                break;
-            case 'memcache':
-                self::$instance = new MemcacheStore();
-                break;
-            case 'sql':
-                self::$instance = new SQLStore();
-                break;
-            case 'redis':
-                self::$instance = new RedisStore();
-                break;
-            default:
-                // datastore from module
-                try {
-                    $className = Module::resolveClass($storeType, 'StoreInterface');
-                } catch (Exception $e) {
-                    $config = Configuration::getInstance();
-                    $c = $config->toArray();
-                    $c['store.type'] = 'phpsession';
-                    throw new Error\CriticalConfigurationError(
-                        "Invalid 'store.type' configuration option. Cannot find store '$storeType'.",
-                        null,
-                        $c,
-                    );
-                }
-                /** @var \SimpleSAML\Store\StoreInterface|false */
-                self::$instance = new $className();
-        }
-
-        return self::$instance;
+       return false;
     }
 
 

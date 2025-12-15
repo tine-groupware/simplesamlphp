@@ -25,6 +25,12 @@
             "SimpleSAML\\Module\\saml\\": "modules/saml/src"
         }
     },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/tine-groupware/ssaml-xml-common.git"
+        }
+    ],
     "require": {
         "php": "^8.2",
         "ext-SPL": "*",
@@ -43,7 +49,7 @@
         "simplesamlphp/assert": "~1.9",
         "simplesamlphp/saml2": "~6.0",
         "simplesamlphp/saml2-legacy": "~4.19",
-        "simplesamlphp/xml-common": "~2.4",
+        "simplesamlphp/xml-common": "^2.4",
         "simplesamlphp/xml-security": "~2.0",
         "symfony/config": "~7.4",
         "symfony/dependency-injection": "~7.4",
@@ -55,10 +61,7 @@
         "phpstan/phpstan": "^2.1"
     },
     "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "simplesamlphp/composer-xmlprovider-installer": true
-        }
+        "sort-packages": true
     },
     "scripts": {
         "phpstan": "XDEBUG_MODE=off php vendor/bin/phpstan analyze --configuration .phpstan.dist.neon",

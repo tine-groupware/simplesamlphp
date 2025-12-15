@@ -149,18 +149,6 @@ class Simple
         }
 
         $as = $this->getAuthSource();
-        if (
-            $as instanceof Module\saml\Auth\Source\SP
-            && !isset($params[State::RESTART])
-            && is_string($returnTo)
-        ) {
-            /*
-             * A URL to restart the authentication, in case the user bookmarks
-             * something, e.g. the discovery service page.
-             */
-            $restartURL = $this->getLoginURL($returnTo);
-            $params[State::RESTART] = $restartURL;
-        }
 
         $as->initLogin($returnTo, $errorURL, $params);
         Assert::true(false);
@@ -298,52 +286,6 @@ class Simple
         }
 
         return $this->session->getAuthState($this->authSource);
-    }
-
-
-    /**
-     * Retrieve a URL that can be used to log the user in.
-     *
-     * @param string|null $returnTo The page the user should be returned to afterwards. If this parameter is null, the
-     * user will be returned to the current page.
-     *
-     * @return string A URL which is suitable for use in link-elements.
-     */
-    public function getLoginURL(?string $returnTo = null): string
-    {
-        if ($returnTo === null) {
-            $httpUtils = new Utils\HTTP();
-            $returnTo = $httpUtils->getSelfURL();
-        }
-
-        $login = Module::getModuleURL('saml/sp/login/' . urlencode($this->authSource), [
-            'ReturnTo' => $returnTo,
-        ]);
-
-        return $login;
-    }
-
-
-    /**
-     * Retrieve a URL that can be used to log the user out.
-     *
-     * @param string|null $returnTo The page the user should be returned to afterwards. If this parameter is null, the
-     * user will be returned to the current page.
-     *
-     * @return string A URL which is suitable for use in link-elements.
-     */
-    public function getLogoutURL(?string $returnTo = null): string
-    {
-        if ($returnTo === null) {
-            $httpUtils = new Utils\HTTP();
-            $returnTo = $httpUtils->getSelfURL();
-        }
-
-        $logout = Module::getModuleURL('core/logout/' . urlencode($this->authSource), [
-            'ReturnTo' => $returnTo,
-        ]);
-
-        return $logout;
     }
 
 

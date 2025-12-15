@@ -20,7 +20,6 @@ class MethodNotAllowed extends Error
      */
     public function __construct(Exception $cause)
     {
-        $this->includeTemplate = 'core:method_not_allowed.twig';
         parent::__construct(
             [
                 ErrorCodes::METHODNOTALLOWED,

@@ -10,7 +10,6 @@ use SimpleSAML\Assert\Assert;
 use SimpleSAML\Auth;
 use SimpleSAML\Configuration;
 use SimpleSAML\Error;
-use SimpleSAML\IdP\IFrameLogoutHandler;
 use SimpleSAML\IdP\LogoutHandlerInterface;
 use SimpleSAML\IdP\TraditionalLogoutHandler;
 use SimpleSAML\Metadata\MetaDataStorageHandler;
@@ -429,9 +428,6 @@ class IdP
         switch ($logouttype) {
             case 'traditional':
                 $handler = TraditionalLogoutHandler::class;
-                break;
-            case 'iframe':
-                $handler = IFrameLogoutHandler::class;
                 break;
             default:
                 throw new Error\Exception('Unknown logout handler: ' . var_export($logouttype, true));

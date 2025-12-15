@@ -10,7 +10,6 @@ use SimpleSAML\Logger;
 use SimpleSAML\Module;
 use SimpleSAML\Session;
 use SimpleSAML\Utils;
-use SimpleSAML\XHTML\Template;
 use Throwable;
 
 /**
@@ -63,12 +62,6 @@ class Error extends Exception
      */
     private array $parameters;
 
-    /**
-     * Name of custom include template for the error.
-     *
-     * @var string|null
-     */
-    protected ?string $includeTemplate = null;
 
 
     /**
@@ -251,7 +244,6 @@ class Error extends Exception
         $data['module'] = $this->module;
         $data['dictTitle'] = $this->dictTitle;
         $data['dictDescr'] = $this->dictDescr;
-        $data['includeTemplate'] = $this->includeTemplate;
         $data['clipboard.js'] = true;
 
         // check if there is a valid technical contact email address
@@ -278,27 +270,10 @@ class Error extends Exception
         }
 
         $show_function = $config->getOptionalArray('errors.show_function', null);
-        if (isset($show_function)) {
-            Assert::isCallable($show_function);
+
+        Assert::nullOrIsCallable($show_function);
             $this->setHTTPCode();
-            call_user_func($show_function, $config, $data);
-            Assert::true(false);
-        } else {
-            $t = new Template($config, 'error.twig');
-
-            // Include translations for the module that holds the included template
-            if ($this->includeTemplate !== null) {
-                $module = explode(':', $this->includeTemplate, 2);
-                if (count($module) === 2 && Module::isModuleEnabled($module[0])) {
-                    $t->getLocalization()->addModuleDomain($module[0]);
-                }
-            }
-
-            $t->setStatusCode($this->httpCode);
-            $t->data = array_merge($t->data, $data);
-            $t->send();
-        }
-
-        exit;
+            $response = call_user_func($show_function, $config, $data);
+            $response->send();
     }
 }

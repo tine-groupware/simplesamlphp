@@ -483,11 +483,11 @@ class SAML2
                 );
             }
             $spEntityId = $issuer->getContent();
-            $spMetadata = $metadata->getMetaDataConfig($spEntityId, 'saml20-sp-remote');
+            $spMetadata = $metadata->getMetaDataConfig($spEntityId->getValue(), 'saml20-sp-remote');
 
             $authnRequestSigned = Message::validateMessage($spMetadata, $idpMetadata, $authnRequest);
 
-            $relayState = $authnRequest->getRelayState();
+            $relayState = $binding->getRelayState();
 
             $requestId = $authnRequest->getId();
             $scoping = $authnRequest->getScoping();
@@ -1262,11 +1262,6 @@ class SAML2
         $httpUtils = new Utils\HTTP();
         $config = Configuration::getInstance();
 
-        $issuer = new Issuer(
-            value: $idpMetadata->getString('entityid'),
-            Format: C::NAMEID_ENTITY,
-        );
-
         $nameId = self::generateNameId($idpMetadata, $spMetadata, $state);
         $state['saml:idp:NameID'] = $nameId;
 
@@ -1285,7 +1280,7 @@ class SAML2
         $issueInstant = SAMLDateTimeValue::fromDateTime($now);
 
         $audience = array_merge([$spMetadata->getString('entityid')], $spMetadata->getOptionalArray('audience', []));
-        $audience = array_map(fn($a): Audience => new Audience($a), $audience);
+        $audience = array_map(fn($a): Audience => new Audience(SAMLAnyURIValue::fromString($a)), $audience);
 
         $issuer = new Issuer(
             value: SAMLStringValue::fromString($state['IdPMetadata']['entityid']),
@@ -1532,9 +1527,9 @@ class SAML2
             var_export($spNameQualifier, true),
         ));
         $nameId = new NameID(
-            value: $nameIdValue,
-            Format: $nameIdFormat,
-            SPNameQualifier: $spNameQualifier,
+            value: SAMLStringValue::fromString($nameIdValue),
+            Format: SAMLAnyURIValue::fromString($nameIdFormat),
+            SPNameQualifier: SAMLStringValue::fromString($spNameQualifier),
         );
 
         return $nameId;

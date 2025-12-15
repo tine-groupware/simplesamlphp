@@ -138,7 +138,7 @@ class Simple
      * @throws \SimpleSAML\Error\CriticalConfigurationError
      * @throws \Throwable
      */
-    public function login(array $params = []): Response
+    public function login(array &$params): Response
     {
         if (array_key_exists('KeepPost', $params)) {
             $keepPost = (bool) $params['KeepPost'];
@@ -166,8 +166,6 @@ class Simple
         } else {
             $errorURL = null;
         }
-
-        $as = $this->getAuthSource();
 
         $as = $this->getAuthSource();
         return $as->initLogin($returnTo, $errorURL, $params);

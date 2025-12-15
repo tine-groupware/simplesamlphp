@@ -69,7 +69,8 @@ class Auth
         // not authenticated as admin user, start authentication
         if (Authentication\Source::getById('admin') !== null) {
             $as = new Authentication\Simple('admin');
-            return $as->login();
+            $params = [];
+            return $as->login($params);
         } else {
             throw new Error\Exception(
                 'Cannot find "admin" auth source, and admin privileges are required.',

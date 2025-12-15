@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25a97a0e2e406d48e71a5aa13db7c34e",
+    "content-hash": "a4b9e1454f4a4bc6903bf3a6b997058c",
     "packages": [
         {
             "name": "beste/clock",
@@ -673,48 +673,6 @@
             "time": "2025-10-20T22:29:33+00:00"
         },
         {
-            "name": "simplesamlphp/composer-xmlprovider-installer",
-            "version": "v1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/simplesamlphp/composer-xmlprovider-installer.git",
-                "reference": "294025c97062d96fe0b0c466a0a189f1a4010628"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/simplesamlphp/composer-xmlprovider-installer/zipball/294025c97062d96fe0b0c466a0a189f1a4010628",
-                "reference": "294025c97062d96fe0b0c466a0a189f1a4010628",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "~2.9.0",
-                "php": "^8.2"
-            },
-            "require-dev": {
-                "composer/composer": "~2.9.0",
-                "simplesamlphp/simplesamlphp-test-framework": "~1.10.3"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "SimpleSAML\\Composer\\XMLProvider\\XMLProviderInstallerPlugin"
-            },
-            "autoload": {
-                "psr-4": {
-                    "SimpleSAML\\Composer\\XMLProvider\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-2.1-only"
-            ],
-            "description": "A composer plugin that will auto-generate a classmap with all classes that implement SerializableElementInterface.",
-            "support": {
-                "issues": "https://github.com/simplesamlphp/composer-xmlprovider-installer/issues",
-                "source": "https://github.com/simplesamlphp/composer-xmlprovider-installer/tree/v1.2.0"
-            },
-            "time": "2025-11-13T11:11:51+00:00"
-        },
-        {
             "name": "simplesamlphp/saml2",
             "version": "v6.0.1",
             "source": {
@@ -852,17 +810,11 @@
         },
         {
             "name": "simplesamlphp/xml-common",
-            "version": "v2.4.3",
+            "version": "v2.4.3pl1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/simplesamlphp/xml-common.git",
-                "reference": "64a139148436ce1d7f1bce9571353c97f34476a3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/simplesamlphp/xml-common/zipball/64a139148436ce1d7f1bce9571353c97f34476a3",
-                "reference": "64a139148436ce1d7f1bce9571353c97f34476a3",
-                "shasum": ""
+                "url": "https://github.com/tine-groupware/ssaml-xml-common.git",
+                "reference": "1d765b7e691a9bca73c4e83479bbbf217af457c2"
             },
             "require": {
                 "ext-bcmath": "*",
@@ -874,8 +826,7 @@
                 "ext-spl": "*",
                 "php": "^8.2",
                 "psr/clock": "~1.0",
-                "simplesamlphp/assert": "~1.9",
-                "simplesamlphp/composer-xmlprovider-installer": "~1.2"
+                "simplesamlphp/assert": "~1.9"
             },
             "require-dev": {
                 "simplesamlphp/simplesamlphp-test-framework": "~1.10"
@@ -883,12 +834,46 @@
             "type": "simplesamlphp-xmlprovider",
             "autoload": {
                 "psr-4": {
+                    "SimpleSAML\\XMLSchema\\": "src/XMLSchema",
                     "SimpleSAML\\XML\\": "src/XML",
-                    "SimpleSAML\\XPath\\": "src/XPath",
-                    "SimpleSAML\\XMLSchema\\": "src/XMLSchema"
+                    "SimpleSAML\\XPath\\": "src/XPath"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "SimpleSAML\\Test\\Helper\\": [
+                        "tests/Helper"
+                    ],
+                    "SimpleSAML\\Test\\Registry\\": [
+                        "tests/Registry"
+                    ],
+                    "SimpleSAML\\Test\\XML\\": [
+                        "tests/XML"
+                    ],
+                    "SimpleSAML\\Test\\XPath\\": [
+                        "tests/XPath"
+                    ],
+                    "SimpleSAML\\Test\\XMLSchema\\": [
+                        "tests/XMLSchema"
+                    ]
+                }
+            },
+            "scripts": {
+                "pre-commit": [
+                    "vendor/bin/phpcs -p",
+                    "vendor/bin/composer-require-checker check --config-file=tools/composer-require-checker.json composer.json",
+                    "vendor/bin/phpstan analyze -c phpstan.neon",
+                    "vendor/bin/phpstan analyze -c phpstan-dev.neon",
+                    "vendor/bin/composer-unused --excludePackage=simplesamlphp/composer-xmlprovider-installer",
+                    "vendor/bin/phpunit --no-coverage --testdox"
+                ],
+                "tests": [
+                    "vendor/bin/phpunit --no-coverage"
+                ],
+                "propose-fix": [
+                    "vendor/bin/phpcs --report=diff"
+                ]
+            },
             "license": [
                 "LGPL-2.1-or-later"
             ],
@@ -912,7 +897,7 @@
                 "issues": "https://github.com/simplesamlphp/xml-common/issues",
                 "source": "https://github.com/simplesamlphp/xml-common"
             },
-            "time": "2025-12-11T09:13:17+00:00"
+            "time": "2025-12-12T16:33:29+00:00"
         },
         {
             "name": "simplesamlphp/xml-security",
@@ -1418,6 +1403,10 @@
                 "symfony/deprecation-contracts": "^2.5|^3",
                 "symfony/polyfill-mbstring": "^1.1"
             },
+            "conflict": {
+                "doctrine/dbal": "<3.6",
+                "symfony/cache": "<6.4.12|>=7.0,<7.1.5"
+            },
             "require-dev": {
                 "doctrine/dbal": "^3.6|^4",
                 "predis/predis": "^1.1|^2.0",
@@ -1646,6 +1635,94 @@
             "time": "2024-12-23T08:48:59+00:00"
         },
         {
+            "name": "symfony/psr-http-message-bridge",
+            "version": "v7.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/psr-http-message-bridge.git",
+                "reference": "0101ff8bd0506703b045b1670960302d302a726c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/psr-http-message-bridge/zipball/0101ff8bd0506703b045b1670960302d302a726c",
+                "reference": "0101ff8bd0506703b045b1670960302d302a726c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2",
+                "psr/http-message": "^1.0|^2.0",
+                "symfony/http-foundation": "^6.4|^7.0|^8.0"
+            },
+            "conflict": {
+                "php-http/discovery": "<1.15",
+                "symfony/http-kernel": "<6.4"
+            },
+            "require-dev": {
+                "nyholm/psr7": "^1.1",
+                "php-http/discovery": "^1.15",
+                "psr/log": "^1.1.4|^2|^3",
+                "symfony/browser-kit": "^6.4|^7.0|^8.0",
+                "symfony/config": "^6.4|^7.0|^8.0",
+                "symfony/event-dispatcher": "^6.4|^7.0|^8.0",
+                "symfony/framework-bundle": "^6.4.13|^7.1.6|^8.0",
+                "symfony/http-kernel": "^6.4.13|^7.1.6|^8.0",
+                "symfony/runtime": "^6.4.13|^7.1.6|^8.0"
+            },
+            "type": "symfony-bridge",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Bridge\\PsrHttpMessage\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "PSR HTTP message bridge",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "http",
+                "http-message",
+                "psr-17",
+                "psr-7"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/psr-http-message-bridge/tree/v7.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2025-11-13T08:38:49+00:00"
+        },
+        {
             "name": "symfony/service-contracts",
             "version": "v3.6.1",
             "source": {
@@ -1734,25 +1811,26 @@
         },
         {
             "name": "symfony/var-exporter",
-            "version": "v8.0.0",
+            "version": "v7.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-exporter.git",
-                "reference": "7345f46c251f2eb27c7b3ebdb5bb076b3ffcae04"
+                "reference": "03a60f169c79a28513a78c967316fbc8bf17816f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/7345f46c251f2eb27c7b3ebdb5bb076b3ffcae04",
-                "reference": "7345f46c251f2eb27c7b3ebdb5bb076b3ffcae04",
+                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/03a60f169c79a28513a78c967316fbc8bf17816f",
+                "reference": "03a60f169c79a28513a78c967316fbc8bf17816f",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.4"
+                "php": ">=8.2",
+                "symfony/deprecation-contracts": "^2.5|^3"
             },
             "require-dev": {
-                "symfony/property-access": "^7.4|^8.0",
-                "symfony/serializer": "^7.4|^8.0",
-                "symfony/var-dumper": "^7.4|^8.0"
+                "symfony/property-access": "^6.4|^7.0|^8.0",
+                "symfony/serializer": "^6.4|^7.0|^8.0",
+                "symfony/var-dumper": "^6.4|^7.0|^8.0"
             },
             "type": "library",
             "autoload": {
@@ -1790,7 +1868,7 @@
                 "serialize"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-exporter/tree/v8.0.0"
+                "source": "https://github.com/symfony/var-exporter/tree/v7.4.0"
             },
             "funding": [
                 {
@@ -1810,7 +1888,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-11-05T18:53:00+00:00"
+            "time": "2025-09-11T10:15:23+00:00"
         },
         {
             "name": "webmozart/assert",

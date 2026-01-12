@@ -41,31 +41,4 @@ class Auth
         $session = Session::getSessionFromRequest();
         return $session->isValid('admin') || $session->isValid('login-admin');
     }
-
-
-    /**
-     * Require admin access to the current page.
-     *
-     * This is a helper function for limiting a page to those with administrative access. It will redirect the user to
-     * a login page if the current user doesn't have admin access.
-     *
-     * @throws \SimpleSAML\Error\Exception If no "admin" authentication source was configured.
-     *
-     */
-    public function requireAdmin(): void
-    {
-        if ($this->isAdmin()) {
-            return;
-        }
-
-        // not authenticated as admin user, start authentication
-        if (Authentication\Source::getById('admin') !== null) {
-            $as = new Authentication\Simple('admin');
-            $as->login();
-        } else {
-            throw new Error\Exception(
-                'Cannot find "admin" auth source, and admin privileges are required.',
-            );
-        }
-    }
 }

@@ -29,8 +29,13 @@
         {
             "type": "git",
             "url": "https://github.com/tine-groupware/ssaml-xml-common.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/tine-groupware/ssamlassert.git"
         }
     ],
+
     "require": {
         "php": "^8.2",
         "ext-SPL": "*",
@@ -46,7 +51,7 @@
         "ext-zlib": "*",
         "beste/clock": "~3.0",
         "robrichards/xmlseclibs": "~3.1",
-        "simplesamlphp/assert": "~1.9",
+        "simplesamlphp/assert": "v1.9.1pl1 as v1.9.1",
         "simplesamlphp/saml2": "~6.0",
         "simplesamlphp/saml2-legacy": "~4.19",
         "simplesamlphp/xml-common": "^2.4",

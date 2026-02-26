@@ -510,9 +510,9 @@ class HTTP
 
         // data and headers
         if ($getHeaders) {
-            if (!empty($http_response_header)) {
+            if (!empty($lastHeaders = (PHP_VERSION_ID >= 80400 ? http_get_last_response_headers() : $http_response_header))) {
                 $headers = [];
-                foreach ($http_response_header as $h) {
+                foreach ($lastHeaders as $h) {
                     if (preg_match('@^HTTP/1\.[01]\s+\d{3}\s+@', $h)) {
                         $headers = []; // reset
                         $headers[0] = $h;
